@@ -2,7 +2,7 @@
 
 This is the management system for Hajee Dudu Meah Tower by me, Wasef
 
-The application will
+## The application will:
 - Manage Tenants
 - Remind Tenants to Pay rent
 - Add Tenants
