@@ -35,7 +35,7 @@ def update_occupancy(unit_no, occupancy_status):
     cursor.execute('UPDATE units SET occupancy_status=? WHERE unit_no=?',data)
     connection.commit()
 
-
+    
 
 if user_input == 'Update':
     unit_no = input('Which unit would you like to update?\n')

@@ -207,7 +207,10 @@ marimo/_lsp/
 __marimo__/
 
 #list all tables
-table_list.py
+app/data/table_list.py
 
 # populate_units script
-populate_units.py
+app/data/populate_units.py
+
+#gmail script
+app/gmail_alert.py
