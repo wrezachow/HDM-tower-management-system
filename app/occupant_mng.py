@@ -4,7 +4,7 @@ connection = sqlite3.connect('data/tower.db')
 
 cursor = connection.cursor()
 
-def add_tennant(unit_no, occupied_by, phone, occupant_status):
+def add_occupant(unit_no, occupied_by, phone, occupant_status):
     data = [unit_no, occupied_by, phone]
 
     #checks for occupancy status
@@ -36,8 +36,11 @@ def add_tennant(unit_no, occupied_by, phone, occupant_status):
     connection.commit()
 
 
-def view_occupants():
-    cursor.execute('SELECT * FROM occupants')
+def view_occupants(unit_no=None):
+    if unit_no:
+        cursor.execute('SELECT * FROM occupants WHERE unit_no=?',(unit_no,))
+    else:
+        cursor.execute('SELECT * FROM occupants')
 
     occupants = cursor.fetchall()
     for occupant in occupants:
@@ -45,13 +48,30 @@ def view_occupants():
 
 def edit_phone(phone, unit_no):
     data = [phone, unit_no]
-    cursor.execute('UPDATE occupants SET phone=? WHERE unit_no=?',data)
-    connection.commit()
+
+    cursor.execute('SELECT * FROM occupants WHERE unit_no=?',(unit_no,))
+    occupant = cursor.fetchone()
+
+    if occupant is None:
+        print("No occupant found with that phone number.")
+    else:
+        cursor.execute('UPDATE occupants SET phone=? WHERE unit_no=?',data)
+        connection.commit()
+        print('The occupant''s  phone number been updated successfully.')
+
+    
 
 def edit_name(name, phone):
     data = [name, phone]
-    cursor.execute('UPDATE occupants SET occupied_by=? WHERE phone=?',data)
-    connection.commit()
+    cursor.execute('SELECT * FROM occupants WHERE phone=?',(phone,))
+    occupant = cursor.fetchone()
+
+    if occupant is None:
+        print("No occupant found with that phone number.")
+    else:
+        cursor.execute('UPDATE occupants SET occupied_by=? WHERE phone=?',data)
+        connection.commit()
+        print('The occupant''s name has been updated successfully.')
 
 def edit_occupant_info():
     user_input = input('What would you like to edit?\n' \
@@ -76,7 +96,10 @@ def edit_occupant_info():
 
 def del_occupant(unit_no):
     cursor.execute('DELETE FROM occupants WHERE unit_no=?',(unit_no,))
-    connection.commit
+    cursor.execute('UPDATE units SET occupancy_status=? WHERE unit_no=?',('None', unit_no,))
+    connection.commit()
+    print('Deleted')
 
 if __name__ == '__main__':
 #Main Program for ability to use all functions
+
