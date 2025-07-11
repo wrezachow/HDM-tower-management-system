@@ -92,6 +92,11 @@ def edit_occupant_info():
 
         edit_name(name, phone)
 
+def update_occupancy(unit_no, occupancy_status):
+    data = [occupancy_status, unit_no]
+    cursor.execute('UPDATE units SET occupancy_status=? WHERE unit_no=?',data)
+    connection.commit()
+    print(f'Occupancy status of unit {unit_no} has been updated to {occupancy_status}')
 
 
 def del_occupant(unit_no):
@@ -100,6 +105,8 @@ def del_occupant(unit_no):
     connection.commit()
     print('Deleted')
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 #Main Program for ability to use all functions
 
+update_occupancy('A12', 'Owner')
+update_occupancy('B12', 'Owner')
