@@ -27,7 +27,7 @@ def add_occupant(unit_no, occupied_by, phone, occupant_status):
 
     #if there is an existing occupant
     elif occupancy_status == 'Tenant':
-        print('Unit currently occupied by occupant')
+        print('Unit is Tenant occupied')
 
     #if there is an Owner occupying unit
     elif occupancy_status == 'Owner':
@@ -59,7 +59,6 @@ def edit_phone(phone, unit_no):
         connection.commit()
         print('The occupant''s  phone number been updated successfully.')
 
-    
 
 def edit_name(name, phone):
     data = [name, phone]
@@ -107,6 +106,3 @@ def del_occupant(unit_no):
 
 #if __name__ == '__main__':
 #Main Program for ability to use all functions
-
-update_occupancy('A12', 'Owner')
-update_occupancy('B12', 'Owner')

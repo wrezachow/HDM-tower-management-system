@@ -85,11 +85,13 @@ def view_payables(unit_no=None, month=None):
 
     elif choice == '2':
         month = input('Enter month (MM-YYYY): ')
-        payables = cursor.execute('SELECT * FROM payables WHERE month=?', (month,)).fetchall()
+        if validate_month(month):
+            payables = cursor.execute('SELECT * FROM payables WHERE month=?', (month,)).fetchall()
 
     elif choice == '3':
         unit_no = input('Enter Unit No: ')
-        payables = cursor.execute('SELECT * FROM payables WHERE unit_no=?', (unit_no,)).fetchall()
+        if validate_unit(unit_no):
+            payables = cursor.execute('SELECT * FROM payables WHERE unit_no=?', (unit_no,)).fetchall()
 
     elif choice == '4':
         month = input('Enter month (MM-YYYY): ')
@@ -115,7 +117,23 @@ def mark_as_paid(unit_no, month):
     else:
         print(f'Invalid Entry')
 
+def auto_add_payables(month):
+    occupied_units = cursor.execute('SELECT unit_no FROM units WHERE occupancy_status=? OR occupancy_status=?',('Tenant','Owner',)).fetchall()
+    unit_payables = cursor.execute('SELECT unit_no FROM payables').fetchall()
 
+    unit_payablesL = []
+    for unit_p in unit_payables:
+        unit_payablesL.append(unit_p[0])
+
+    for unit in occupied_units:
+        unit = unit[0]
+
+
+        if unit not in unit_payablesL:
+            add_payable(unit, month)
+            print(f'Added Unit {unit} to payables database')
+        else:
+            print(f'Unit {unit} is already in payables database')
 
 # To-Dp for Day 4:
 # 1. Improve view_payables():

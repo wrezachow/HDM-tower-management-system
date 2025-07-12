@@ -1,5 +1,7 @@
 import sqlite3
+from datetime import datetime
 
+'''
 connection =sqlite3.connect('data/tower.db')
 
 cursor = connection.cursor()
@@ -51,3 +53,8 @@ if user_input == 'Update':
     occupancy_status = occupancy_choices[occupancy_status - 1]
     
     update_occupancy(unit_no, occupancy_status)
+'''
+
+datem = datetime.today().strftime("%m-%Y")
+
+print(datem)

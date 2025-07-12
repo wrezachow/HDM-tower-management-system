@@ -1,34 +1,31 @@
 import sqlite3
 from datetime import datetime
-from payables_mng import view_payables, add_payable, mark_as_paid
+from payables_mng import view_payables, add_payable, mark_as_paid, auto_add_payables, validate_month, validate_unit
 from occupant_mng import view_occupants, edit_occupant_info, del_occupant
 
 connection = sqlite3.connect('data/tower.db')
 cursor = connection.cursor()
 
 def show_dashboard():
-    #uses total units for:
-    #shows occupied units
-    #shows empty units
-
-    #show owner occupied
-    #show Tenant occupied
-    
     #count units that have to pay service charge
     #count units that paid service charge
-
-    total_units = cursor.execute('SELECT COUNT(*) FROM units').fetchall()
-    tenant_occupied = cursor.execute('SELECT COUNT(*) FROM units WHERE ocupancy_status=?',('Tenant',)).fetchall()
-    owner_occupied = cursor.execute('SELECT COUNT(*) FROM units WHERE ocupancy_status=?',('Owner',)).fetchall()
-    occupied_units = tenant_occupied + owner_occupied
-    empty_units = total_units - occupied_units
-
-
-    unpaid_units = cursor.execute('SELECT COUNT(*) FROM payables WHERE paid=?',('No',)).fetchall()
-    paid_units = cursor.execute('SELECT COUNT(*) FROM payables WHERE paid=?',('Yes',)).fetchall()
-
-    print("Welcome to Hajee Dudu Meah Tower Management System!")
+    month = datetime.today().strftime("%m-%Y")
     
+    if validate_month(month):
+        total_units = cursor.execute('SELECT COUNT(*) FROM units').fetchone()[0]
+        tenant_occupied = cursor.execute('SELECT COUNT(*) FROM units WHERE occupancy_status=?',('Tenant',)).fetchone()[0]
+        owner_occupied = cursor.execute('SELECT COUNT(*) FROM units WHERE occupancy_status=?',('Owner',)).fetchone()[0]
+        occupied_units = tenant_occupied + owner_occupied
+        empty_units = total_units - occupied_units
+
+
+        unpaid_units = cursor.execute('SELECT COUNT(*) FROM payables WHERE paid=?',('No',)).fetchone()[0]
+        paid_units = cursor.execute('SELECT COUNT(*) FROM payables WHERE paid=?',('Yes',)).fetchone()[0]
+
+    print('-' * 50)
+    print("Welcome to Hajee Dudu Meah Tower Management System!")
+    print('-' * 50)
+    print(f'Month: {month}')
     print(f"Units Available: {empty_units}")
     print(f"Units Occupied: {occupied_units}")
     print()
@@ -39,7 +36,10 @@ def show_dashboard():
     print()
     print(f"Units that owe Service Charge: {unpaid_units}")
     print(f"Units that paid Service Charge: {paid_units}")
+    print()
+    print('-' * 50)
 
+'''
 def main():
     #Deal with payables
     #Deal with occupants
@@ -53,11 +53,9 @@ def main():
 
     print('What would you like to do')
     
+'''
 
 
 
 
 
-
-
-#if __name__ == '__main__':
