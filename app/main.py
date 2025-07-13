@@ -45,7 +45,7 @@ def main():
                 unit_no = input('Unit: ')
                 if validate_unit(unit_no):
                     view_occupants(unit_no)
-            else:
+            elif f_choice == 'n':
                 view_occupants()
 
         elif choice == '5':
