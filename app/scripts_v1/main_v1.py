@@ -1,9 +1,9 @@
 import sqlite3
 from datetime import datetime
-from payables_mng import view_payables, add_payable, mark_as_paid, auto_add_payables, validate_month, validate_unit
-from occupant_mng import add_occupant, view_occupants, edit_occupant_info, del_occupant, edit_name, edit_phone, update_occupancy
-from dashboard import show_dashboard
-from view_units import show_units
+from app.scripts_v1.payables_mng import view_payables, add_payable, mark_as_paid, auto_add_payables, validate_month, validate_unit
+from app.scripts_v1.occupant_mng import add_occupant, view_occupants, edit_occupant_info, del_occupant, edit_name, edit_phone, update_occupancy
+from app.scripts_v1.dashboard import show_dashboard
+from app.scripts_v1.view_units import show_units
 
 connection = sqlite3.connect('data/tower.db')
 cursor = connection.cursor()

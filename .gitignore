@@ -213,5 +213,5 @@ app/data/table_list.py
 app/data/populate_units.py
 
 #gmail script
-app/gmail_alert.py
+app/scripts_v1/gmail_alert.py
 

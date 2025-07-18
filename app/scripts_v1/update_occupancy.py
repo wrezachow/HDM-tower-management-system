@@ -55,6 +55,3 @@ if user_input == 'Update':
     update_occupancy(unit_no, occupancy_status)
 '''
 
-datem = datetime.today().strftime("%m-%Y")
-
-print(datem)
